@@ -12,7 +12,8 @@ TABLE_TARGETS := $(addprefix _site/tables/, $(addsuffix .html, $(TABLES)))
 .PHONY: all
 all: $(TABLE_TARGETS) \
   _site/index.html \
-  _site/tables/index.html
+  _site/tables/index.html \
+  _site/static/css/style.css
 
 
 _site/index.html: pages/index.md prototype.hs
@@ -44,6 +45,10 @@ _site/tables/%.html: tables/%.md prototype.db prototype.hs
 	echo "  Command: sqlite3 prototype.db 'SELECT * FROM $* LIMIT 100'" >> $@.temp
 	runghc prototype.hs end-html >> $@.temp
 	mv $@.temp $@
+
+_site/static/%.css: static/%.css
+	mkdir -p $(dir $@)
+	cp $< $@
 
 .PHONY: ghcid
 ghcid:

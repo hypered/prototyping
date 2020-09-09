@@ -80,11 +80,13 @@ main = do
 beginHtml =
   "<!DOCTYPE html>\n\
   \<html>\n\
-  \<head></head><body><code><pre>\n\
-  \<a href=\"/\">home</a> | <a href=\"/tables/\">tables</a>\n"
+  \<head>\n\
+  \  <link rel=\"stylesheet\" href=\"/static/css/style.css\">\n\
+  \</head><body><main><code><pre>\n\
+  \<a href=\"/\">home</a>   <a href=\"/tables/\">tables</a>\n"
 
 endHtml =
-  "</pre></code></body></html>"
+  "</pre></code></main></body></html>"
 
 tableNameToLink SqliteTable{..} =
   "<li><a href=\"/tables/" ++ name ++ ".html\">" ++ name ++ "</a></li>"
