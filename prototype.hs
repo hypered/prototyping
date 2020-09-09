@@ -53,8 +53,7 @@ main = do
     ["table-html", table] -> do
       -- Generate an HTML page for a given table name.
       putStrLn beginHtml
-      putStr "<a href=\"/\">home</a> | <a href=\"/tables/\">tables</a> | "
-      putStrLn table
+      putStrLn ("<strong>" ++ table ++ "</strong>")
       -- Dont close the HTML, so it is easy to append additional content.
 
     ["list-md-sources"] -> do
@@ -81,7 +80,8 @@ main = do
 beginHtml =
   "<!DOCTYPE html>\n\
   \<html>\n\
-  \<head></head><body><code><pre>"
+  \<head></head><body><code><pre>\n\
+  \<a href=\"/\">home</a> | <a href=\"/tables/\">tables</a>\n"
 
 endHtml =
   "</pre></code></body></html>"
