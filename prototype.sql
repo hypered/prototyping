@@ -12,12 +12,12 @@ CREATE TABLE sources (
 );
 
 -- Directories. See tables/directories.html.
-CREATE TABLE directories ( 
+CREATE TABLE directories (
   path TEXT PRIMARY KEY
 );
 
 -- Pages. See tables/pages.html.
-CREATE TABLE pages ( 
+CREATE TABLE pages (
   url TEXT PRIMARY KEY
 );
 

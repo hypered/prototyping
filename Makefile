@@ -29,8 +29,6 @@ _site/tables/index.html: prototype.db prototype.hs
 	runghc prototype.hs end-html >> $@.temp
 	mv $@.temp $@
 
-# TODO Link to the CREATE TABLE statement in prototype.sql, with e.g.
-#   grep -nH 'CREATE TABLE directories' prototype.sql | cut -d : -f 2
 _site/tables/%.html: tables/%.md prototype.db prototype.hs
 	mkdir -p $(dir $@)
 	runghc prototype.hs table-html $* > $@.temp
@@ -38,9 +36,12 @@ _site/tables/%.html: tables/%.md prototype.db prototype.hs
 	cat $< >> $@.temp
 	echo >> $@.temp
 	sqlite3 prototype.db ".schema $*" >> $@.temp
+	echo -n "  Defined: " >> $@.temp
+	grep -nH "^CREATE TABLE $* ($$" prototype.sql | cut -d : -f 1,2 >> $@.temp
 	echo >> $@.temp
-	echo "sqlite3 prototype.db 'SELECT * FROM $* LIMIT 100'" >> $@.temp
-	sqlite3 prototype.db "SELECT * FROM $* LIMIT 100" >> $@.temp
+	sqlite3 -init sqliterc.txt prototype.db "SELECT * FROM $* LIMIT 100"\
+          | grep -v '\-- Loading resources from sqliterc.txt' >> $@.temp
+	echo "  Command: sqlite3 prototype.db 'SELECT * FROM $* LIMIT 100'" >> $@.temp
 	runghc prototype.hs end-html >> $@.temp
 	mv $@.temp $@
 
