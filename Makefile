@@ -19,7 +19,9 @@ all: $(TABLE_TARGETS) \
 _site/index.html: pages/index.md prototype.hs
 	mkdir -p $(dir $@)
 	runghc prototype.hs begin-html > $@.temp
-	cat $< >> $@.temp
+	echo "</pre></code>" >> $@.temp
+	pandoc $< >> $@.temp
+	echo "<code><pre>" >> $@.temp
 	runghc prototype.hs end-html >> $@.temp
 	mv $@.temp $@
 
@@ -34,7 +36,9 @@ _site/tables/%.html: tables/%.md prototype.db prototype.hs
 	mkdir -p $(dir $@)
 	runghc prototype.hs table-html $* > $@.temp
 	echo >> $@.temp
-	cat $< >> $@.temp
+	echo "</pre></code>" >> $@.temp
+	pandoc $< >> $@.temp
+	echo "<code><pre>" >> $@.temp
 	echo >> $@.temp
 	sqlite3 prototype.db ".schema $*" >> $@.temp
 	echo -n "  Defined: " >> $@.temp

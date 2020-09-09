@@ -5,6 +5,7 @@
       pkgs.sqlite
       (pkgs.haskellPackages.ghcWithPackages (hpkgs: [
         hpkgs.extra
+        hpkgs.pandoc
         hpkgs.sqlite-simple
       ]))
     ];
