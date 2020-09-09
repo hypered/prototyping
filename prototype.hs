@@ -41,7 +41,7 @@ main = do
       -- Generate the "bottom" of an HTML file.
       putStrLn endHtml
 
-    ["generate-html-index"] -> do
+    ["table-index-html"] -> do
       -- Generate an HTML page listing all the tables.
       tables <- selectTables' databasePath
       putStrLn beginHtml
@@ -49,17 +49,13 @@ main = do
       mapM_ (putStrLn. tableNameToLink) tables
       putStrLn "</ul>"
       -- Dont close the HTML, so it is easy to append additional content.
-      -- putStrLn
-      --   "</pre></code></body></html>"
 
-    ["generate-html", table] -> do
+    ["table-html", table] -> do
       -- Generate an HTML page for a given table name.
       putStrLn beginHtml
       putStr "<a href=\"/\">home</a> | <a href=\"/tables/\">tables</a> | "
       putStrLn table
       -- Dont close the HTML, so it is easy to append additional content.
-      -- putStrLn
-      --   "</pre></code></body></html>"
 
     ["list-md-sources"] -> do
       -- List all Markdown files in this directory.

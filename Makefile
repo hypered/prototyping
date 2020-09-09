@@ -25,13 +25,15 @@ _site/index.html: pages/index.md prototype.hs
 # TODO Add the first characters of the description.
 _site/tables/index.html: prototype.db prototype.hs
 	mkdir -p $(dir $@)
-	runghc prototype.hs generate-html-index > $@
+	runghc prototype.hs table-index-html > $@.temp
+	runghc prototype.hs end-html >> $@.temp
+	mv $@.temp $@
 
 # TODO Link to the CREATE TABLE statement in prototype.sql, with e.g.
 #   grep -nH 'CREATE TABLE directories' prototype.sql | cut -d : -f 2
 _site/tables/%.html: tables/%.md prototype.db prototype.hs
 	mkdir -p $(dir $@)
-	runghc prototype.hs generate-html $* > $@.temp
+	runghc prototype.hs table-html $* > $@.temp
 	echo >> $@.temp
 	cat $< >> $@.temp
 	echo >> $@.temp
@@ -39,6 +41,7 @@ _site/tables/%.html: tables/%.md prototype.db prototype.hs
 	echo >> $@.temp
 	echo "sqlite3 prototype.db 'SELECT * FROM $* LIMIT 100'" >> $@.temp
 	sqlite3 prototype.db "SELECT * FROM $* LIMIT 100" >> $@.temp
+	runghc prototype.hs end-html >> $@.temp
 	mv $@.temp $@
 
 .PHONY: ghcid
