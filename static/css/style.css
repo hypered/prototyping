@@ -1,6 +1,12 @@
+body {
+  font-family: Liberation Sans, Arial, sans-serif;
+  line-height: 1.4;
+}
 main {
-  max-width: 80ch;
-  padding: 2ch;
+/* Given the above font, this width gives about the same width as the 80
+   characters used in the source .md files. */
+  max-width: 64ch;
+  padding: 1.5ch;
   margin: auto;
 }
 
