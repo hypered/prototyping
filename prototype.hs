@@ -84,11 +84,11 @@ beginHtml =
   \  <title>Prototyping</title>\n\
   \  <meta name=\"viewport\" content=\"width=device-width\">\n\
   \  <link rel=\"stylesheet\" href=\"/static/css/style.css\">\n\
-  \</head><body><main><code><pre>\n\
+  \</head><body><main><pre><code>\n\
   \<a href=\"/\">home</a>   <a href=\"/tables/\">tables</a>\n"
 
 endHtml =
-  "</pre></code></main></body></html>"
+  "</code></pre></main></body></html>"
 
 tableNameToLink SqliteTable{..} =
   "<li><a href=\"/tables/" ++ name ++ ".html\">" ++ name ++ "</a></li>"
