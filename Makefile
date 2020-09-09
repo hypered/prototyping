@@ -19,6 +19,7 @@ _site/index.html: pages/index.md prototype.hs
 	mkdir -p $(dir $@)
 	runghc prototype.hs begin-html > $@.temp
 	cat $< >> $@.temp
+	runghc prototype.hs end-html >> $@.temp
 	mv $@.temp $@
 
 # TODO Add the first characters of the description.

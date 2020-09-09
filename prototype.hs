@@ -37,6 +37,10 @@ main = do
       -- Generate the "top" of an HTML file.
       putStrLn beginHtml
 
+    ["end-html"] ->
+      -- Generate the "bottom" of an HTML file.
+      putStrLn endHtml
+
     ["generate-html-index"] -> do
       -- Generate an HTML page listing all the tables.
       tables <- selectTables' databasePath
@@ -82,6 +86,9 @@ beginHtml =
   "<!DOCTYPE html>\n\
   \<html>\n\
   \<head></head><body><code><pre>"
+
+endHtml =
+  "</pre></code></body></html>"
 
 tableNameToLink SqliteTable{..} =
   "<li><a href=\"/tables/" ++ name ++ ".html\">" ++ name ++ "</a></li>"
