@@ -5,19 +5,19 @@
 -- Schema.
 --------------------------------------------------------------------------------
 
--- Source files. See tables/sources.html.
-CREATE TABLE sources (
+-- Source files. See tables/prototype_sources.html.
+CREATE TABLE prototype_sources (
   path TEXT PRIMARY KEY,
   size INT NOT NULL
 );
 
--- Directories. See tables/directories.html.
-CREATE TABLE directories (
+-- Directories. See tables/prototype_directories.html.
+CREATE TABLE prototype_directories (
   path TEXT PRIMARY KEY
 );
 
--- Pages. See tables/pages.html.
-CREATE TABLE pages (
+-- Pages. See tables/prototype_pages.html.
+CREATE TABLE prototype_pages (
   url TEXT PRIMARY KEY
 );
 
@@ -26,8 +26,8 @@ CREATE TABLE pages (
 -- Data.
 --------------------------------------------------------------------------------
 
-INSERT INTO directories (path) VALUES
+INSERT INTO prototype_directories (path) VALUES
   ("_site/");
 
-INSERT INTO pages (url) VALUES
+INSERT INTO prototype_pages (url) VALUES
   ("/index.html");

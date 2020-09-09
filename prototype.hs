@@ -69,7 +69,7 @@ main = do
       let files' = map (\(fn, size) -> Source (T.pack fn) size) files
       conn <- open databasePath
       executeMany conn
-        "INSERT INTO sources (path, size) VALUES (?,?)"
+        "INSERT INTO prototype_sources (path, size) VALUES (?,?)"
         files'
       close conn
 
