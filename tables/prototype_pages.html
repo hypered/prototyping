@@ -4,14 +4,14 @@
   <title>Prototyping</title>
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="/static/css/style.css">
-</head><body><main><code><pre>
+</head><body><main><pre><code>
 <a href="/">home</a>   <a href="/tables/">tables</a>
 
 <strong>prototype_pages</strong>
 
-</pre></code>
+</code></pre>
 <p>The <code>pages</code> table describes the different pages of the prototype.</p>
-<code><pre>
+<pre><code>
 
 CREATE TABLE prototype_pages (
   url TEXT PRIMARY KEY
@@ -22,4 +22,4 @@ url
 -----------
 /index.html
   Command: sqlite3 prototype.db 'SELECT * FROM prototype_pages LIMIT 100'
-</pre></code></main></body></html>
+</code></pre></main></body></html>
