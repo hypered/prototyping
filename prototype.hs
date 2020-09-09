@@ -81,6 +81,8 @@ beginHtml =
   "<!DOCTYPE html>\n\
   \<html>\n\
   \<head>\n\
+  \  <title>Prototyping</title>\n\
+  \  <meta name=\"viewport\" content=\"width=device-width\">\n\
   \  <link rel=\"stylesheet\" href=\"/static/css/style.css\">\n\
   \</head><body><main><code><pre>\n\
   \<a href=\"/\">home</a>   <a href=\"/tables/\">tables</a>\n"
