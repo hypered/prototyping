@@ -16,7 +16,7 @@ import qualified Data.Text.IO as T
 import Database.SQLite.Simple
 import Database.SQLite.Simple.FromRow
 import System.Directory (doesDirectoryExist, listDirectory)
-import System.Environment (getArgs)
+import System.Environment (getArgs, getEnv)
 import System.FilePath (takeExtension, (</>), FilePath)
 import System.Posix (fileSize, getFileStatus)
 
@@ -24,21 +24,22 @@ import System.Posix (fileSize, getFileStatus)
 --------------------------------------------------------------------------------
 main :: IO ()
 main = do
+  databasePath <- getEnv "PROTOTYPE_DB"
   args <- getArgs
   case args of
-    [fn, "tables"] -> do
-      -- List the table names found in the `fn` SQLite database. This is used to
-      -- generate the targets in the Makefile.
-      tables <- selectTables' fn
+    ["tables"] -> do
+      -- List the table names found in the `PROTOTYPE_DB` SQLite database. This
+      -- is used to generate the targets in the Makefile.
+      tables <- selectTables' databasePath
       mapM_ (T.putStrLn . tableName) tables
 
     ["begin-html"] ->
       -- Generate the "top" of an HTML file.
       putStrLn beginHtml
 
-    [fn, "generate-html-index"] -> do
+    ["generate-html-index"] -> do
       -- Generate an HTML page listing all the tables.
-      tables <- selectTables' fn
+      tables <- selectTables' databasePath
       putStrLn beginHtml
       putStrLn "<ul>"
       mapM_ (putStrLn. tableNameToLink) tables
@@ -47,7 +48,7 @@ main = do
       -- putStrLn
       --   "</pre></code></body></html>"
 
-    [fn, "generate-html", table] -> do
+    ["generate-html", table] -> do
       -- Generate an HTML page for a given table name.
       putStrLn beginHtml
       putStr "<a href=\"/\">home</a> | <a href=\"/tables/\">tables</a> | "
@@ -61,19 +62,19 @@ main = do
       files <- findMarkdownFiles
       mapM_ print files
 
-    [fn, "import-md-sources"] -> do
+    ["import-md-sources"] -> do
       -- Insert all Markdown files found in this directory into the `sources`
       -- table. Use "list-md-sources" to see the filenames that would be
       -- imported.
       files <- findMarkdownFiles
       let files' = map (\(fn, size) -> Source (T.pack fn) size) files
-      conn <- open fn
+      conn <- open databasePath
       executeMany conn
         "INSERT INTO sources (path, size) VALUES (?,?)"
         files'
       close conn
 
-    [fn] -> inProgress fn
+    _ -> inProgress databasePath
 
 
 --------------------------------------------------------------------------------

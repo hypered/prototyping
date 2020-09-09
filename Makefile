@@ -5,7 +5,7 @@ DATE=$(shell date --iso-8601=minutes)
 # This depends on prototype.hs and prototype.db. The later can be built with
 # the db.Makefile. It is simpler to use `scripts/build.sh` to combine both
 # steps.
-TABLES=$(shell runghc prototype.hs prototype.db tables)
+TABLES=$(shell runghc prototype.hs tables)
 TABLE_TARGETS := $(addprefix _site/tables/, $(addsuffix .html, $(TABLES)))
 
 
@@ -24,13 +24,13 @@ _site/index.html: pages/index.md prototype.hs
 # TODO Add the first characters of the description.
 _site/tables/index.html: prototype.db prototype.hs
 	mkdir -p $(dir $@)
-	runghc prototype.hs prototype.db generate-html-index > $@
+	runghc prototype.hs generate-html-index > $@
 
 # TODO Link to the CREATE TABLE statement in prototype.sql, with e.g.
 #   grep -nH 'CREATE TABLE directories' prototype.sql | cut -d : -f 2
 _site/tables/%.html: tables/%.md prototype.db prototype.hs
 	mkdir -p $(dir $@)
-	runghc prototype.hs prototype.db generate-html $* > $@.temp
+	runghc prototype.hs generate-html $* > $@.temp
 	echo >> $@.temp
 	cat $< >> $@.temp
 	echo >> $@.temp

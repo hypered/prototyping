@@ -34,11 +34,16 @@ it with `direnv allow`:
 ```
 $ cat .envrc
 use_nix
+export PROTOTYPE_DB="prototype.db"
 $ direnv allow
 ```
 
 [^envrc]: The file `.envrc` is not versioned because it can also be used to
-define environemnt variables containing credentials.
+define environemnt variables containing credentials. You can change the
+recommanded value for `PROTOTYPE_DB` to something else if necessary.
+
+The `PROTOTYPE_DB` is used by the `prototype.hs` script. Currently the
+`Makefile` assumes it is `prototype.db` though.
 
 The following command should be enough to generate a complete `_site/`
 directory that can be served with something like Nginx or Browser Sync.
