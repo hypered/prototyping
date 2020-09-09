@@ -12,11 +12,12 @@ TABLE_TARGETS := $(addprefix _site/tables/, $(addsuffix .html, $(TABLES)))
 .PHONY: all
 all: $(TABLE_TARGETS) \
   _site/index.html \
+  _site/80-characters.html \
   _site/tables/index.html \
   _site/static/css/style.css
 
 
-_site/index.html: pages/index.md prototype.hs
+_site/%.html: pages/%.md prototype.hs
 	mkdir -p $(dir $@)
 	runghc prototype.hs begin-html > $@.temp
 	echo "</pre></code>" >> $@.temp
