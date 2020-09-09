@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head></head><body><code><pre>
+<a href="/">home</a> | <a href="/tables/">tables</a> | pages
+
+The `pages` table describes the different pages of the prototype.
+
+CREATE TABLE pages ( 
+  url TEXT PRIMARY KEY
+);
+
+sqlite3 prototype.db 'SELECT * FROM pages LIMIT 100'
+/index.html
