@@ -3,11 +3,11 @@
 <head></head><body><code><pre>
 <a href="/">home</a> | <a href="/tables/">tables</a>
 
-<strong>pages</strong>
+<strong>prototype_pages</strong>
 
 The `pages` table describes the different pages of the prototype.
 
-CREATE TABLE pages (
+CREATE TABLE prototype_pages (
   url TEXT PRIMARY KEY
 );
   Defined: prototype.sql:20
@@ -15,5 +15,5 @@ CREATE TABLE pages (
 url        
 -----------
 /index.html
-  Command: sqlite3 prototype.db 'SELECT * FROM pages LIMIT 100'
+  Command: sqlite3 prototype.db 'SELECT * FROM prototype_pages LIMIT 100'
 </pre></code></body></html>
