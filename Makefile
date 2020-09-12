@@ -17,23 +17,26 @@ all: $(TABLE_TARGETS) \
   _site/static/css/style.css
 
 
-_site/%.html: pages/%.md prototype.hs
+_site/%.html: _intermediate/pages/%.html \
+  _intermediate/begin.html _intermediate/end.html
 	mkdir -p $(dir $@)
-	runghc prototype.hs begin-html > $@.temp
+	cat _intermediate/begin.html >> $@.temp
 	echo "</code></pre>" >> $@.temp
-	pandoc $< >> $@.temp
+	cat $< >> $@.temp
 	echo "<pre><code>" >> $@.temp
-	runghc prototype.hs end-html >> $@.temp
+	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
 # TODO Add the first characters of the description.
-_site/tables/index.html: prototype.db prototype.hs
+_site/tables/index.html: prototype.db prototype.hs \
+  _intermediate/end.html
 	mkdir -p $(dir $@)
 	runghc prototype.hs table-index-html > $@.temp
-	runghc prototype.hs end-html >> $@.temp
+	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
-_site/tables/%.html: tables/%.md prototype.db prototype.hs
+_site/tables/%.html: tables/%.md prototype.db prototype.hs \
+  _intermediate/end.html
 	mkdir -p $(dir $@)
 	runghc prototype.hs table-html $* > $@.temp
 	echo >> $@.temp
@@ -48,12 +51,24 @@ _site/tables/%.html: tables/%.md prototype.db prototype.hs
 	sqlite3 -init sqliterc.txt prototype.db "SELECT * FROM $* LIMIT 100"\
           | grep -v '\-- Loading resources from sqliterc.txt' >> $@.temp
 	echo "  Command: sqlite3 prototype.db 'SELECT * FROM $* LIMIT 100'" >> $@.temp
-	runghc prototype.hs end-html >> $@.temp
+	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
 _site/static/%.css: static/%.css
 	mkdir -p $(dir $@)
 	cp $< $@
+
+_intermediate/begin.html: prototype.hs
+	mkdir -p $(dir $@)
+	runghc prototype.hs begin-html > $@
+
+_intermediate/end.html: prototype.hs
+	mkdir -p $(dir $@)
+	runghc prototype.hs end-html > $@
+
+_intermediate/pages/%.html: pages/%.md
+	mkdir -p $(dir $@)
+	pandoc $< > $@
 
 .PHONY: ghcid
 ghcid:
