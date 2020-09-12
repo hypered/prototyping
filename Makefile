@@ -13,6 +13,7 @@ TABLE_TARGETS := $(addprefix _site/tables/, $(addsuffix .html, $(TABLES)))
 all: $(TABLE_TARGETS) \
   _site/index.html \
   _site/80-characters.html \
+  _site/database.html \
   _site/tables/index.html \
   _site/static/css/style.css
 
@@ -46,11 +47,13 @@ _site/tables/%.html: tables/%.md prototype.db prototype.hs \
 	echo >> $@.temp
 	sqlite3 prototype.db ".schema $*" >> $@.temp
 	echo -n "  Defined: " >> $@.temp
-	grep -nH "^CREATE TABLE $* ($$" prototype.sql | cut -d : -f 1,2 >> $@.temp
+	grep -nH "^CREATE TABLE $* ($$" prototype.sql | cut -d : -f 1,2 \
+	  | sed 's@\([^:]\+\):\(.\+\)@<a href="/database.html#cb1-\2">\1:\2</a>@' \
+	  >> $@.temp
 	echo >> $@.temp
 	sqlite3 -init sqliterc.txt prototype.db "SELECT * FROM $* LIMIT 100"\
           | grep -v '\-- Loading resources from sqliterc.txt' >> $@.temp
-	echo "  Command: sqlite3 prototype.db 'SELECT * FROM $* LIMIT 100'" >> $@.temp
+	echo "  Command: sqlite3 prototype.db \"SELECT * FROM $* LIMIT 100\"" >> $@.temp
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
@@ -66,9 +69,13 @@ _intermediate/end.html: prototype.hs
 	mkdir -p $(dir $@)
 	runghc prototype.hs end-html > $@
 
-_intermediate/pages/%.html: pages/%.md
+_intermediate/pages/%.html: pages/%.md filters/include-filter.hs
 	mkdir -p $(dir $@)
-	pandoc $< > $@
+	cat code-style.html > $@
+	pandoc \
+	  --highlight=kate \
+	  --filter filters/include-filter.hs \
+	  $< >> $@
 
 .PHONY: ghcid
 ghcid:
