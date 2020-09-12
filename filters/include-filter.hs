@@ -15,7 +15,7 @@ main = toJSONFilter doInclude
 --------------------------------------------------------------------------------
 doInclude :: Block -> IO Block
 doInclude block@(CodeBlock (id, classes, namevals) contents) =
-  case lookup "include" namevals of
-    Just f  -> CodeBlock (id, classes, namevals) <$> readFile f
+  case lookup (T.pack "include") namevals of
+    Just f  -> CodeBlock (id, classes, namevals) <$> T.readFile (T.unpack f)
     Nothing -> return block
 doInclude block = return block

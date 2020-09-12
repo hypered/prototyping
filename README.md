@@ -33,6 +33,7 @@ it with `direnv allow`:
 
 ```
 $ cat .envrc
+NIX_PATH=nixpkgs=channel:nixos-unstable
 use_nix
 export PROTOTYPE_DB="prototype.db"
 $ direnv allow
@@ -44,6 +45,9 @@ recommanded value for `PROTOTYPE_DB` to something else if necessary.
 
 The `PROTOTYPE_DB` is used by the `prototype.hs` script. Currently the
 `Makefile` assumes it is `prototype.db` though.
+
+The `NIX_PATH` environment variable, placed before `use_nix`, is taken into
+account, and it matches what is used by the GitHub workflow.
 
 The following command should be enough to generate a complete `_site/`
 directory that can be served with something like Nginx or Browser Sync.
