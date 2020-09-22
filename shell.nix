@@ -2,6 +2,7 @@
   pkgs.mkShell {
     buildInputs = [
       pkgs.ghcid
+      pkgs.jq
       pkgs.sqlite
       (pkgs.haskellPackages.ghcWithPackages (hpkgs: [
         hpkgs.extra

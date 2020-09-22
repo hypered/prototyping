@@ -17,6 +17,16 @@ all: $(TABLE_TARGETS) \
   _site/tables/index.html \
   _site/static/css/style.css
 
+# Same rule as _site/%.html, but also depends on prototype.sql.
+_site/database.html: _intermediate/pages/database.html prototype.sql \
+  _intermediate/begin.html _intermediate/end.html
+	mkdir -p $(dir $@)
+	cat _intermediate/begin.html >> $@.temp
+	echo "</code></pre>" >> $@.temp
+	cat $< >> $@.temp
+	echo "<pre><code>" >> $@.temp
+	cat _intermediate/end.html >> $@.temp
+	mv $@.temp $@
 
 _site/%.html: _intermediate/pages/%.html \
   _intermediate/begin.html _intermediate/end.html
@@ -36,6 +46,8 @@ _site/tables/index.html: prototype.db prototype.hs \
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
+# The || true below is necessary because when no record exist in the table,
+# the grep invokation will exit 1, instead of 0.
 _site/tables/%.html: tables/%.md prototype.db prototype.hs \
   _intermediate/end.html
 	mkdir -p $(dir $@)
@@ -52,7 +64,7 @@ _site/tables/%.html: tables/%.md prototype.db prototype.hs \
 	  >> $@.temp
 	echo >> $@.temp
 	sqlite3 -init sqliterc.txt prototype.db "SELECT * FROM $* LIMIT 100"\
-          | grep -v '\-- Loading resources from sqliterc.txt' >> $@.temp
+          | grep -v '\-- Loading resources from sqliterc.txt' >> $@.temp || true
 	echo "  Command: sqlite3 prototype.db \"SELECT * FROM $* LIMIT 100\"" >> $@.temp
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@

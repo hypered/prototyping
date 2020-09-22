@@ -21,6 +21,13 @@ CREATE TABLE prototype_pages (
   url TEXT PRIMARY KEY
 );
 
+-- Metadata. See tables/prototype_metadata.html.
+CREATE TABLE prototype_metadata (
+  source TEXT PRIMARY KEY,
+  type TEXT NOT NULL,
+  data JSON
+);
+
 
 --------------------------------------------------------------------------------
 -- Data.
