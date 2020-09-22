@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prototyping</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head><body><main><pre><code>
+<a href="/">home</a>   <a href="/tables/">tables</a>
+
+<strong>prototype_metadata</strong>
+
+</code></pre>
+<p>The <code>metadata</code> table contains the metadata block extracted from Markdown source files. In addition of the path to the file (as the <code>source</code> column), there is a <code>type</code> column, currently fixed to <code>markdown</code> (in case some other source files contain metadata that we would want in this table).</p>
+<pre><code>
+
+CREATE TABLE prototype_metadata (
+  source TEXT PRIMARY KEY,
+  type TEXT NOT NULL,
+  data JSON
+);
+  Defined: <a href="/database.html#cb1-25">prototype.sql:25</a>
+
+source                           type      data                                                               
+-------------------------------  --------  -------------------------------------------------------------------
+pages/index.md                   markdown  {"source":"pages/index.md","title":"Prototype","type":"markdown"}  
+pages/80-characters.md           markdown  {"source":"pages/80-characters.md","type":"markdown"}              
+pages/database.md                markdown  {"source":"pages/database.md","title":"Database","type":"markdown"}
+README.md                        markdown  {"source":"README.md","type":"markdown"}                           
+tables/prototype_pages.md        markdown  {"source":"tables/prototype_pages.md","type":"markdown"}           
+tables/prototype_directories.md  markdown  {"source":"tables/prototype_directories.md","type":"markdown"}     
+tables/prototype_sources.md      markdown  {"source":"tables/prototype_sources.md","type":"markdown"}         
+tables/prototype_metadata.md     markdown  {"source":"tables/prototype_metadata.md","type":"markdown"}        
+  Command: sqlite3 prototype.db "SELECT * FROM prototype_metadata LIMIT 100"
+</code></pre></main></body></html>
