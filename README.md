@@ -19,8 +19,8 @@ A SQLite database called `prototype.db` is generated from `.sql` files, and
 other data available within this repository. For instance, the names of the
 Markdown files are inserted into a table called `sources`.
 
-Using primarily the `prototype.db`, but also other files, static  HTML files
-are generated in the `_site/` directory.
+Using primarily the `prototype.db`, but also other files, static HTML files are
+generated in the `_site/` directory.
 
 Populating the database, or generating HTML from it, is done by a `Makefile`,
 which itself calls the `prototype.hs` script.
