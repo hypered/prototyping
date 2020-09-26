@@ -10,6 +10,9 @@ prototype.db: prototype.sql prototype.hs _intermediate/metadata.sql
 	runghc prototype.hs import-md-sources
 	sqlite3 $@ < _intermediate/metadata.sql
 
+# Combine the YAML metadata blocks extrqcted in the rule below to generate a
+# .sql file to insert them into the prototype_metadata table in the above
+# `prototype.db` rule.
 # The sed replaces the last comma with a semi-colon.
 _intermediate/metadata.sql: $(METADATA)
 	mkdir -p $(dir $@)
@@ -19,6 +22,9 @@ _intermediate/metadata.sql: $(METADATA)
 	rm $@.temp.sql
 	mv $@.temp $@
 
+# Extract YAML metadata block from Markdown files and generate corresponding
+# .json files. Those are combined into a .sql file in the
+# `_intermediate/metadata.sql` rule above.
 _intermediate/metadata/%.json: %.md metadata.tpl
 	mkdir -p $(dir $@)
 	pandoc \

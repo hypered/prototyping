@@ -25,6 +25,16 @@ generated in the `_site/` directory.
 Populating the database, or generating HTML from it, is done by a `Makefile`,
 which itself calls the `prototype.hs` script.
 
+Everything is done by running the `scripts/build.sh` script:
+
+```
+prototype.sql                            _site/*.html
+              \                        /
+pages/*.md     -->-- prototype.db -->--
+              /
+...
+```
+
 
 ## Building
 
