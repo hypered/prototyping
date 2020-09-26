@@ -20,15 +20,15 @@ CREATE TABLE prototype_metadata (
 );
   Defined: <a href="/database.html#cb1-25">prototype.sql:25</a>
 
-source                           type      data                                                               
--------------------------------  --------  -------------------------------------------------------------------
-pages/index.md                   markdown  {"source":"pages/index.md","title":"Prototype","type":"markdown"}  
-pages/80-characters.md           markdown  {"source":"pages/80-characters.md","type":"markdown"}              
-pages/database.md                markdown  {"source":"pages/database.md","title":"Database","type":"markdown"}
-README.md                        markdown  {"source":"README.md","type":"markdown"}                           
-tables/prototype_pages.md        markdown  {"source":"tables/prototype_pages.md","type":"markdown"}           
-tables/prototype_directories.md  markdown  {"source":"tables/prototype_directories.md","type":"markdown"}     
-tables/prototype_sources.md      markdown  {"source":"tables/prototype_sources.md","type":"markdown"}         
-tables/prototype_metadata.md     markdown  {"source":"tables/prototype_metadata.md","type":"markdown"}        
+source                           type      data                                                                                                            
+-------------------------------  --------  ----------------------------------------------------------------------------------------------------------------
+pages/index.md                   markdown  {"destination":"pages/index.html","source":"pages/index.md","title":"Prototype","type":"markdown"}              
+pages/80-characters.md           markdown  {"destination":"pages/80-characters.html","source":"pages/80-characters.md","type":"markdown"}                  
+pages/database.md                markdown  {"destination":"pages/database.html","source":"pages/database.md","title":"Database","type":"markdown"}         
+README.md                        markdown  {"destination":"README.html","source":"README.md","type":"markdown"}                                            
+tables/prototype_pages.md        markdown  {"destination":"tables/prototype_pages.html","source":"tables/prototype_pages.md","type":"markdown"}            
+tables/prototype_directories.md  markdown  {"destination":"tables/prototype_directories.html","source":"tables/prototype_directories.md","type":"markdown"}
+tables/prototype_sources.md      markdown  {"destination":"tables/prototype_sources.html","source":"tables/prototype_sources.md","type":"markdown"}        
+tables/prototype_metadata.md     markdown  {"destination":"tables/prototype_metadata.html","source":"tables/prototype_metadata.md","type":"markdown"}      
   Command: sqlite3 prototype.db "SELECT * FROM prototype_metadata LIMIT 100"
 </code></pre></main></body></html>
