@@ -1,7 +1,8 @@
 # Prototyping
 
 This is a small SQLite-based programming environment, that is mostly generating
-static HTML pages from a database.
+static HTML pages from a database. You can visit the generated pages at
+[prototyping.hypered.design](https://prototyping.hypered.design).
 
 - This uses `direnv` with its `use_nix` feature (which loads the environment
 described in `shell.nix`).
