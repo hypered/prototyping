@@ -119,7 +119,7 @@ selectTables conn =
   query_ conn
     "SELECT type, name, tbl_name, rootpage, sql \
     \FROM sqlite_master \
-    \WHERE type='table'" :: IO [SqliteTable]
+    \WHERE type='table'"
 
 selectColumns :: Connection -> Text -> IO [SqliteColumn]
 selectColumns conn table =
