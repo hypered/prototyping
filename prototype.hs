@@ -108,9 +108,9 @@ beginHtml =
   \  <meta name=\"viewport\" content=\"width=device-width\">\n\
   \  <link rel=\"stylesheet\" href=\"/static/css/style.css\">\n\
   \</head><body><main><pre><code>\n\
-  \<a href=\"/\">/</a>   \
-  \<a href=\"/screens/\">/screens</a>   \
-  \<a href=\"/tables/\">/tables</a>\n"
+  \<a href=\"/\">home</a>   \
+  \<a href=\"/screens/\">screens</a>   \
+  \<a href=\"/tables/\">tables</a>\n"
 
 endHtml =
   "</code></pre></main></body></html>"
