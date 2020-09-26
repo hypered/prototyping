@@ -17,17 +17,6 @@ all: $(TABLE_TARGETS) \
   _site/tables/index.html \
   _site/static/css/style.css
 
-# Same rule as _site/%.html, but also depends on prototype.sql.
-_site/database.html: _intermediate/pages/database.html prototype.sql \
-  _intermediate/begin.html _intermediate/end.html
-	mkdir -p $(dir $@)
-	cat _intermediate/begin.html >> $@.temp
-	echo "</code></pre>" >> $@.temp
-	cat $< >> $@.temp
-	echo "<pre><code>" >> $@.temp
-	cat _intermediate/end.html >> $@.temp
-	mv $@.temp $@
-
 _site/%.html: _intermediate/pages/%.html \
   _intermediate/begin.html _intermediate/end.html
 	mkdir -p $(dir $@)
@@ -38,7 +27,6 @@ _site/%.html: _intermediate/pages/%.html \
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
-# TODO Add the first characters of the description.
 _site/tables/index.html: prototype.db prototype.hs \
   _intermediate/end.html
 	mkdir -p $(dir $@)
@@ -81,9 +69,18 @@ _intermediate/end.html: prototype.hs
 	mkdir -p $(dir $@)
 	runghc prototype.hs end-html > $@
 
-_intermediate/pages/%.html: pages/%.md filters/include-filter.hs
+# Same rule as below but depends on prototype.sql.
+_intermediate/pages/database.html: pages/database.md filters/include-filter.hs \
+  prototype.sql
 	mkdir -p $(dir $@)
 	cat code-style.html > $@
+	pandoc \
+	  --highlight=kate \
+	  --filter filters/include-filter.hs \
+	  $< >> $@
+
+_intermediate/pages/%.html: pages/%.md filters/include-filter.hs
+	mkdir -p $(dir $@)
 	pandoc \
 	  --highlight=kate \
 	  --filter filters/include-filter.hs \
