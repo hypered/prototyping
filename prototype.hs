@@ -27,6 +27,11 @@ main = do
   databasePath <- getEnv "PROTOTYPE_DB"
   args <- getArgs
   case args of
+    ["screens"] -> do
+      -- List the screen names.
+      tables <- selectScreens' databasePath
+      mapM_ (T.putStrLn . screenName) tables
+
     ["tables"] -> do
       -- List the table names found in the `PROTOTYPE_DB` SQLite database. This
       -- is used to generate the targets in the Makefile.
@@ -40,6 +45,24 @@ main = do
     ["end-html"] ->
       -- Generate the "bottom" of an HTML file.
       putStrLn endHtml
+
+    ["screen-index-html"] -> do
+      -- Generate an HTML page listing all the screens. Screens are like pages,
+      -- but considered as part of an application (although, a documentation
+      -- page that would be customized with, say, an API key could be seen as
+      -- "applicative").
+      screens <- selectScreens' databasePath
+      putStrLn beginHtml
+      putStrLn "<ul>"
+      mapM_ (putStrLn. screenNameToLink) screens
+      putStrLn "</ul>"
+      -- Dont close the HTML, so it is easy to append additional content.
+
+    ["screen-html", screen] -> do
+      -- Generate an HTML page for a given screen name.
+      putStrLn beginHtml
+      putStrLn ("<strong>" ++ screen ++ "</strong>")
+      -- Dont close the HTML, so it is easy to append additional content.
 
     ["table-index-html"] -> do
       -- Generate an HTML page listing all the tables.
@@ -85,10 +108,16 @@ beginHtml =
   \  <meta name=\"viewport\" content=\"width=device-width\">\n\
   \  <link rel=\"stylesheet\" href=\"/static/css/style.css\">\n\
   \</head><body><main><pre><code>\n\
-  \<a href=\"/\">home</a>   <a href=\"/tables/\">tables</a>\n"
+  \<a href=\"/\">/</a>   \
+  \<a href=\"/screens/\">/screens</a>   \
+  \<a href=\"/tables/\">/tables</a>\n"
 
 endHtml =
   "</code></pre></main></body></html>"
+
+screenNameToLink Screen{..} =
+  "<li><a href=\"/screens/" ++ name ++ ".html\">" ++ name ++ "</a></li>"
+  where name = T.unpack screenName
 
 tableNameToLink SqliteTable{..} =
   "<li><a href=\"/tables/" ++ name ++ ".html\">" ++ name ++ "</a></li>"
@@ -105,6 +134,20 @@ inProgress fn = do
     cs <- selectColumns conn tableName
     mapM_ print cs) ts
   close conn
+
+
+--------------------------------------------------------------------------------
+selectScreens' fn = do
+  conn <- open fn
+  tables <- selectScreens conn
+  close conn
+  return (sortBy (comparing screenName) tables)
+
+selectScreens :: Connection -> IO [Screen]
+selectScreens conn =
+  query_ conn
+    "SELECT type, name \
+    \FROM prototype_screens"
 
 
 --------------------------------------------------------------------------------
@@ -129,6 +172,22 @@ selectColumns conn table =
 
 
 --------------------------------------------------------------------------------
+data Screen =
+  Screen
+  { screenType :: Text
+  , screenName :: Text
+  }
+  deriving (Show)
+
+instance FromRow Screen
+  where
+  fromRow = Screen <$> field <*> field
+
+instance ToRow Screen
+  where
+  toRow (Screen{..}) =
+    toRow (screenType, screenName)
+
 data SqliteTable =
   SqliteTable
   { tableType :: Text

@@ -16,6 +16,12 @@ CREATE TABLE prototype_directories (
   path TEXT PRIMARY KEY
 );
 
+-- Screens. See tables/prototype_screens.html.
+CREATE TABLE prototype_screens (
+  name TEXT PRIMARY KEY,
+  type ENUM NOT NULL CHECK(type IN ('VIEW','LIST'))
+);
+
 -- Pages. See tables/prototype_pages.html.
 CREATE TABLE prototype_pages (
   url TEXT PRIMARY KEY

@@ -7,13 +7,17 @@ DATE=$(shell date --iso-8601=minutes)
 # steps.
 TABLES=$(shell runghc prototype.hs tables)
 TABLE_TARGETS := $(addprefix _site/tables/, $(addsuffix .html, $(TABLES)))
+SCREENS=$(shell runghc prototype.hs screens)
+SCREEN_TARGETS := $(addprefix _site/screens/, $(addsuffix .html, $(SCREENS)))
 
 
 .PHONY: all
 all: $(TABLE_TARGETS) \
+  $(SCREEN_TARGETS) \
   _site/index.html \
   _site/80-characters.html \
   _site/database.html \
+  _site/screens/index.html \
   _site/tables/index.html \
   _site/static/css/style.css
 
@@ -23,6 +27,26 @@ _site/%.html: _intermediate/pages/%.html \
 	cat _intermediate/begin.html >> $@.temp
 	echo "</code></pre>" >> $@.temp
 	cat $< >> $@.temp
+	echo "<pre><code>" >> $@.temp
+	cat _intermediate/end.html >> $@.temp
+	mv $@.temp $@
+
+_site/screens/index.html: prototype.db prototype.hs \
+  _intermediate/end.html
+	mkdir -p $(dir $@)
+	runghc prototype.hs screen-index-html > $@.temp
+	cat _intermediate/end.html >> $@.temp
+	mv $@.temp $@
+
+# The || true below is necessary because when no record exist in the table,
+# the grep invokation will exit 1, instead of 0.
+_site/screens/%.html: screens/%.md prototype.db prototype.hs \
+  _intermediate/end.html
+	mkdir -p $(dir $@)
+	runghc prototype.hs screen-html $* > $@.temp
+	echo >> $@.temp
+	echo "</code></pre>" >> $@.temp
+	pandoc $< >> $@.temp
 	echo "<pre><code>" >> $@.temp
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
