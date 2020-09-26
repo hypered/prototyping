@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="/static/css/style.css">
 </head><body><main><pre><code>
-<a href="/">home</a>   <a href="/tables/">tables</a>
+<a href="/">/</a>   <a href="/screens/">/screens</a>   <a href="/tables/">/tables</a>
 
 <strong>prototype_sources</strong>
 
 </code></pre>
-<p>The <code>sources</code> table describes source files used to generate this site. In particular it lists Markdown files, which are inserted in the database with the <code>import-md-sources</code> sub-command of <code>prototype.hs</code>.</p>
+<p>The <code>sources</code> table describes source files used to generate this site. In particular it lists Markdown files, which are inserted automatically in the database with the <code>import-md-sources</code> sub-command of <code>prototype.hs</code>, called in <code>db.Makefile</code>.</p>
 <pre><code>
 
 CREATE TABLE prototype_sources (
@@ -21,10 +21,14 @@ CREATE TABLE prototype_sources (
 
 path                             size
 -------------------------------  ----
-tables/prototype_metadata.md     290 
-tables/prototype_sources.md      205 
-tables/prototype_directories.md  148 
-tables/prototype_pages.md        66  
+tables/sqlite_sequence.md        155 
+tables/prototype_metadata.md     347 
+tables/prototype_sources.md      244 
+tables/items.md                  128 
+tables/prototype_directories.md  210 
+tables/prototype_pages.md        128 
+tables/prototype_screens.md      235 
+screens/view-item.md             84  
 pages/database.md                359 
 pages/80-characters.md           229 
 pages/index.md                   251 

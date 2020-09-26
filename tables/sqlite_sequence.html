@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prototyping</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head><body><main><pre><code>
+<a href="/">/</a>   <a href="/screens/">/screens</a>   <a href="/tables/">/tables</a>
+
+<strong>sqlite_sequence</strong>
+
+</code></pre>
+<p><code>sqlite_sequence</code> is an internal table used by SQLite to track autoincremented columns. See <a href="https://sqlite.org/autoinc.html">the official documentation</a>.</p>
+<pre><code>
+
+CREATE TABLE sqlite_sequence(name,seq);
+  Defined: 
+name   seq
+-----  ---
+items  2  
+  Command: sqlite3 prototype.db "SELECT * FROM sqlite_sequence LIMIT 100"
+</code></pre></main></body></html>

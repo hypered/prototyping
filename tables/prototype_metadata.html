@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="/static/css/style.css">
 </head><body><main><pre><code>
-<a href="/">home</a>   <a href="/tables/">tables</a>
+<a href="/">/</a>   <a href="/screens/">/screens</a>   <a href="/tables/">/tables</a>
 
 <strong>prototype_metadata</strong>
 
 </code></pre>
-<p>The <code>metadata</code> table contains the metadata block extracted from Markdown source files. In addition of the path to the file (as the <code>source</code> column), there is a <code>type</code> column, currently fixed to <code>markdown</code> (in case some other source files contain metadata that we would want in this table).</p>
+<p>The <code>metadata</code> table contains the metadata block extracted from Markdown source files. In addition of the path to the file (as the <code>source</code> column), there is a <code>type</code> column, currently fixed to <code>markdown</code> (in case some other source files contain metadata that we would want in this table). Its records are automatically inserted by <code>db.Makefile</code>.</p>
 <pre><code>
 
 CREATE TABLE prototype_metadata (
@@ -18,17 +18,21 @@ CREATE TABLE prototype_metadata (
   type TEXT NOT NULL,
   data JSON
 );
-  Defined: <a href="/database.html#cb1-25">prototype.sql:25</a>
+  Defined: <a href="/database.html#cb1-31">prototype.sql:31</a>
 
 source                           type      data                                                                                                            
 -------------------------------  --------  ----------------------------------------------------------------------------------------------------------------
 pages/index.md                   markdown  {"destination":"pages/index.html","source":"pages/index.md","title":"Prototype","type":"markdown"}              
 pages/80-characters.md           markdown  {"destination":"pages/80-characters.html","source":"pages/80-characters.md","type":"markdown"}                  
 pages/database.md                markdown  {"destination":"pages/database.html","source":"pages/database.md","title":"Database","type":"markdown"}         
+screens/view-item.md             markdown  {"destination":"screens/view-item.html","source":"screens/view-item.md","type":"markdown"}                      
 README.md                        markdown  {"destination":"README.html","source":"README.md","type":"markdown"}                                            
+tables/prototype_screens.md      markdown  {"destination":"tables/prototype_screens.html","source":"tables/prototype_screens.md","type":"markdown"}        
 tables/prototype_pages.md        markdown  {"destination":"tables/prototype_pages.html","source":"tables/prototype_pages.md","type":"markdown"}            
 tables/prototype_directories.md  markdown  {"destination":"tables/prototype_directories.html","source":"tables/prototype_directories.md","type":"markdown"}
+tables/items.md                  markdown  {"destination":"tables/items.html","source":"tables/items.md","type":"markdown"}                                
 tables/prototype_sources.md      markdown  {"destination":"tables/prototype_sources.html","source":"tables/prototype_sources.md","type":"markdown"}        
 tables/prototype_metadata.md     markdown  {"destination":"tables/prototype_metadata.html","source":"tables/prototype_metadata.md","type":"markdown"}      
+tables/sqlite_sequence.md        markdown  {"destination":"tables/sqlite_sequence.html","source":"tables/sqlite_sequence.md","type":"markdown"}            
   Command: sqlite3 prototype.db "SELECT * FROM prototype_metadata LIMIT 100"
 </code></pre></main></body></html>

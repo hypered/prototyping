@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prototyping</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head><body><main><pre><code>
+<a href="/">/</a>   <a href="/screens/">/screens</a>   <a href="/tables/">/tables</a>
+
+<strong>items</strong>
+
+</code></pre>
+<p>The <code>items</code> table contains lines of a (single) todolist. Each item has a status (<code>TODO</code>, or <code>DONE</code>), and a textual description.</p>
+<pre><code>
+
+CREATE TABLE items (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  status ENUM NOT NULL CHECK(status IN ('TODO','DONE')),
+  description TEXT NOT NULL CHECK(length(description) > 0)
+);
+  Defined: <a href="/database.html#cb1-46">prototype.sql:46</a>
+
+id  status  description                                                              
+--  ------  -------------------------------------------------------------------------
+1   TODO    Add the first characters of each table description to /tables/index.html.
+2   TODO    Extract the values of each ENUMs to reuse them in table descriptions.    
+  Command: sqlite3 prototype.db "SELECT * FROM items LIMIT 100"
+</code></pre></main></body></html>
