@@ -2,7 +2,7 @@
 
 
 --------------------------------------------------------------------------------
--- Schema.
+-- Schema: meta tables used by this prototyping tool.
 --------------------------------------------------------------------------------
 
 -- Source files. See tables/prototype_sources.html.
@@ -30,6 +30,20 @@ CREATE TABLE prototype_metadata (
 
 
 --------------------------------------------------------------------------------
+-- Schema: tables of the application being prototyped. Here a dead-simple
+-- todolist application.
+-- The ENUM type doesn't exist in SQLite, and is used here to facilitate the
+-- extraction of those constants with something like
+--   grep ENUM prototype.sql | sed 's/.*IN (\(.*\))),\?/\1/'
+--------------------------------------------------------------------------------
+
+CREATE TABLE items (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  status ENUM NOT NULL CHECK(status IN ('TODO','DONE')),
+  description TEXT NOT NULL CHECK(length(description) > 0)
+);
+
+--------------------------------------------------------------------------------
 -- Data.
 --------------------------------------------------------------------------------
 
@@ -38,3 +52,7 @@ INSERT INTO prototype_directories (path) VALUES
 
 INSERT INTO prototype_pages (url) VALUES
   ("/index.html");
+
+INSERT INTO items (status, description) VALUES
+  ("TODO", "Add the first characters of each table description to /tables/index.html."),
+  ("TODO", "Extract the values of each ENUMs to reuse them in table descriptions.");
