@@ -56,6 +56,9 @@ CREATE TABLE items (
 INSERT INTO prototype_directories (path) VALUES
   ("_site/");
 
+INSERT INTO prototype_screens (name, type) VALUES
+  ("view-item", "VIEW");
+
 INSERT INTO prototype_pages (url) VALUES
   ("/index.html");
 
