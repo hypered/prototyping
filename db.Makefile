@@ -31,5 +31,6 @@ _intermediate/metadata/%.json: %.md metadata.tpl
 	  --template metadata.tpl \
 	  --to html \
 	  --metadata source=$< \
+	  --metadata destination=$(patsubst ./%,%,$*).html \
 	  --metadata type=markdown \
 	  $< -o $@
