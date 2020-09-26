@@ -9,6 +9,7 @@ prototype.db: prototype.sql prototype.hs _intermediate/metadata.sql
 	sqlite3 $@ < $<
 	runghc prototype.hs import-md-sources
 	sqlite3 $@ < _intermediate/metadata.sql
+	sqlite3 prototype.db < insert-screens.sql
 
 # Combine the YAML metadata blocks extrqcted in the rule below to generate a
 # .sql file to insert them into the prototype_metadata table in the above

@@ -19,7 +19,8 @@ CREATE TABLE prototype_directories (
 -- Screens. See tables/prototype_screens.html.
 CREATE TABLE prototype_screens (
   name TEXT PRIMARY KEY,
-  type ENUM NOT NULL CHECK(type IN ('VIEW','LIST'))
+  type ENUM NOT NULL CHECK(type IN ('VIEW','LIST')),
+  query TEXT NOT NULL
 );
 
 -- Pages. See tables/prototype_pages.html.
@@ -55,9 +56,6 @@ CREATE TABLE items (
 
 INSERT INTO prototype_directories (path) VALUES
   ("_site/");
-
-INSERT INTO prototype_screens (name, type) VALUES
-  ("view-item", "VIEW");
 
 INSERT INTO prototype_pages (url) VALUES
   ("/index.html");
