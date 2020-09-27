@@ -8,17 +8,22 @@
 import Control.Monad (foldM)
 import Control.Monad.Extra (partitionM)
 import Control.Applicative
+import Data.Aeson (eitherDecodeStrict, Value)
 import Data.List (sortBy)
 import Data.Ord (comparing)
 import Data.Text (Text)
 import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
 import qualified Data.Text.IO as T
+import qualified Data.Text.Lazy as LT
 import Database.SQLite.Simple
 import Database.SQLite.Simple.FromRow
 import System.Directory (doesDirectoryExist, listDirectory)
 import System.Environment (getArgs, getEnv)
 import System.FilePath (takeExtension, (</>), FilePath)
 import System.Posix (fileSize, getFileStatus)
+
+import Text.Mustache (automaticCompile, substitute, toMustache)
 
 import Prototype
 
@@ -98,18 +103,57 @@ main = do
         files'
       close conn
 
+    ["screen"] -> do
+      putStrLn ("TODO Describe the screen subcommand.")
+
+    ["screen", screen] -> do
+      putStrLn ("TODO Describe the " ++ screen ++ " screen.")
+
+    ["screen", screen, i] -> do
+      -- Lookup a VIEW screen and template its data with a corresponding
+      -- Mustache template. The data can be viewed with the `--json` variant
+      -- of this command below.
+      -- This is similar to
+      --   $ runghc prototype.hs screen view-item <i> --json > a
+      --   $ haskell-mustache mustache/view-item.mustache a
+      mtemplate <- automaticCompile ["mustache"] (screen ++ ".mustache")
+      case mtemplate of
+        Left err -> error (show err)
+        Right compiledTemplate -> do
+          mscreen <- getScreenJSON databasePath screen (read i)
+          maybe
+            (error "No such screen")
+            (\a -> do
+              either
+                putStrLn
+                (T.putStrLn . substitute compiledTemplate . toMustache)
+                (eitherDecodeStrict (T.encodeUtf8 a) :: Either String Value)
+            )
+            mscreen
+
     ["screen", screen, i, "--json"] -> do
       -- Lookup a VIEW screen and returns the result of its query.
-      -- TODO Use bracket for open/close.
-      conn <- open databasePath
-      mscreen <- selectScreen conn (T.pack screen)
-      case mscreen of
-        [Screen{..}] -> do
-          rs <- query conn (Query screenQuery) (Only (read i :: Int))
-          close conn
-          mapM_ (\(Only a) -> T.putStrLn a) rs
-        _ -> do
-          close conn
-          error "No such screen."
+      mscreen <- getScreenJSON databasePath screen (read i)
+      maybe
+        (error "No such screen")
+        T.putStrLn
+        mscreen
 
     _ -> inProgress databasePath
+
+getScreenJSON :: String -> String -> Int -> IO (Maybe Text)
+getScreenJSON fn screen i = do
+  -- TODO Use bracket for open/close.
+  conn <- open fn
+  mscreen <- selectScreen conn (T.pack screen)
+  case mscreen of
+    [Screen{..}] -> do
+      -- TODO No such record.
+      [Only a] <- query conn (Query screenQuery) (Only i)
+      close conn
+      return a
+    _ -> do
+      close conn
+      return Nothing
+      -- More than one screen is not possible because of the PRIMARY KEY
+      -- constraint.
