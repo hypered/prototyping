@@ -80,8 +80,18 @@ The following example shows the JSON returned by a particular `VIEW` screen. It
 is thus similar to using the route `http://127.0.0.1:9011/item/1`:
 
 ```
-$ runghc prototype.hs screen view-item 2 --json
+$ runghc prototype.hs screen view-item 2 --json | tee a
 {"id":2,"description":"Extract the values of each ENUMs to reuse them in table descriptions.","status":"TODO"}
+```
+
+Given the above JSON, the screen can be rendred with:
+
+```
+$ haskell-mustache mustache/view-item.mustache a
+ITEM-2
+Status: TODO
+Description:
+  Extract the values of each ENUMs to reuse them in table descriptions.
 ```
 
 
