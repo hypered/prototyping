@@ -98,4 +98,18 @@ main = do
         files'
       close conn
 
+    ["screen", screen, i, "--json"] -> do
+      -- Lookup a VIEW screen and returns the result of its query.
+      -- TODO Use bracket for open/close.
+      conn <- open databasePath
+      mscreen <- selectScreen conn (T.pack screen)
+      case mscreen of
+        [Screen{..}] -> do
+          rs <- query conn (Query screenQuery) (Only (read i :: Int))
+          close conn
+          mapM_ (\(Only a) -> T.putStrLn a) rs
+        _ -> do
+          close conn
+          error "No such screen."
+
     _ -> inProgress databasePath

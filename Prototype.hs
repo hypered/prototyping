@@ -68,6 +68,14 @@ selectScreens conn =
     "SELECT name, route, type, query, ids \
     \FROM prototype_screens"
 
+selectScreen :: Connection -> Text -> IO [Screen]
+selectScreen conn name =
+  query conn
+    "SELECT name, route, type, query, ids \
+    \FROM prototype_screens \
+    \WHERE name=?"
+    (Only name)
+
 
 --------------------------------------------------------------------------------
 selectTables' fn = do
