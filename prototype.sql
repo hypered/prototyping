@@ -19,8 +19,10 @@ CREATE TABLE prototype_directories (
 -- Screens. See tables/prototype_screens.html.
 CREATE TABLE prototype_screens (
   name TEXT PRIMARY KEY,
+  route TEXT NOT NULL,
   type ENUM NOT NULL CHECK(type IN ('VIEW','LIST')),
-  query TEXT NOT NULL
+  query TEXT NOT NULL,
+  ids TEXT NOT NULL
 );
 
 -- Pages. See tables/prototype_pages.html.

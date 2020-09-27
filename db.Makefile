@@ -4,7 +4,7 @@
 SOURCES=$(shell find . -name '*.md')
 METADATA := $(addprefix _intermediate/metadata/, $(patsubst %.md,%.json,$(SOURCES)))
 
-prototype.db: prototype.sql prototype.hs _intermediate/metadata.sql
+prototype.db: prototype.sql prototype.hs _intermediate/metadata.sql insert-screens.sql
 	rm -f prototype.db
 	sqlite3 $@ < $<
 	runghc prototype.hs import-md-sources
