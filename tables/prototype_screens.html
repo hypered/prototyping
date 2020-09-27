@@ -5,22 +5,27 @@
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="/static/css/style.css">
 </head><body><main><pre><code>
-<a href="/">/</a>   <a href="/screens/">/screens</a>   <a href="/tables/">/tables</a>
+<a href="/">home</a>   <a href="/screens/">screens</a>   <a href="/tables/">tables</a>
 
 <strong>prototype_screens</strong>
 
 </code></pre>
-<p>The <code>screens</code> table describes the different scrrens of the prototype. Screens are like pages but more with a role within an application, whereas pages are more informative. Its records are manually created by the <code>prototype.sql</code> file.</p>
+<p>The <code>screens</code> table describes the different screens of the prototype. Screens are like pages but more with a role within an application, whereas pages are more informative. Its records are automatically created in <code>db.Makefile</code> by copying part of the <code>prototype_metadata</code> table.</p>
+<p>A screen specifies a SQL query to fetch the necessary data to populate it, and a route where the screen should be visible. By combining the two pieces of information, the <code>serve.hs</code> script is able to automatically make the right data available at the right route. The query is expected to return JSON.</p>
+<p>For instance given the <code>view-item</code> screen, (if <code>serve.hs</code> is running) you should be able to visit <a href="http://127.0.0.1:9011/item/1">/item/1</a>.</p>
 <pre><code>
 
 CREATE TABLE prototype_screens (
   name TEXT PRIMARY KEY,
-  type ENUM NOT NULL CHECK(type IN ('VIEW','LIST'))
+  route TEXT NOT NULL,
+  type ENUM NOT NULL CHECK(type IN ('VIEW','LIST')),
+  query TEXT NOT NULL,
+  ids TEXT NOT NULL
 );
   Defined: <a href="/database.html#cb1-20">prototype.sql:20</a>
 
-name       type
----------  ----
-view-item  VIEW
+name       route      type  query                                                                                             ids                 
+---------  ---------  ----  ------------------------------------------------------------------------------------------------  --------------------
+view-item  /item/:id  VIEW  SELECT json_object('id', id, 'description', description, 'status', status) FROM items WHERE id=?  SELECT id FROM items
   Command: sqlite3 prototype.db "SELECT * FROM prototype_screens LIMIT 100"
 </code></pre></main></body></html>

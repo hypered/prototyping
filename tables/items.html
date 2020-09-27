@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" href="/static/css/style.css">
 </head><body><main><pre><code>
-<a href="/">/</a>   <a href="/screens/">/screens</a>   <a href="/tables/">/tables</a>
+<a href="/">home</a>   <a href="/screens/">screens</a>   <a href="/tables/">tables</a>
 
 <strong>items</strong>
 
@@ -18,7 +18,7 @@ CREATE TABLE items (
   status ENUM NOT NULL CHECK(status IN ('TODO','DONE')),
   description TEXT NOT NULL CHECK(length(description) > 0)
 );
-  Defined: <a href="/database.html#cb1-46">prototype.sql:46</a>
+  Defined: <a href="/database.html#cb1-49">prototype.sql:49</a>
 
 id  status  description                                                              
 --  ------  -------------------------------------------------------------------------
