@@ -1,13 +1,13 @@
-# This Makefile only builds the database, which is necessary for the main
-# Makefile.
+# This Makefile builds prototype and the database, which are necessary for the
+# main Makefile.
 
 SOURCES=$(shell find . -name '*.md')
 METADATA := $(addprefix _intermediate/metadata/, $(patsubst %.md,%.json,$(SOURCES)))
 
-prototype.db: prototype.sql prototype.hs _intermediate/metadata.sql insert-screens.sql
+prototype.db: prototype.sql prototype _intermediate/metadata.sql insert-screens.sql
 	rm -f prototype.db
 	sqlite3 $@ < $<
-	runghc prototype.hs import-md-sources
+	./prototype import-md-sources
 	sqlite3 $@ < _intermediate/metadata.sql
 	sqlite3 prototype.db < insert-screens.sql
 
@@ -35,3 +35,6 @@ _intermediate/metadata/%.json: %.md metadata.tpl
 	  --metadata destination=$(patsubst ./%,%,$*).html \
 	  --metadata type=markdown \
 	  $< -o $@
+
+prototype: prototype.hs
+	ghc --make prototype.hs

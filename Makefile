@@ -2,12 +2,11 @@
 
 DATE=$(shell date --iso-8601=minutes)
 
-# This depends on prototype.hs and prototype.db. The later can be built with
-# the db.Makefile. It is simpler to use `scripts/build.sh` to combine both
-# steps.
-TABLES=$(shell runghc prototype.hs tables)
+# This depends on prototype and prototype.db. They can be built with the
+# db.Makefile. It is simpler to use `scripts/build.sh` to combine both steps.
+TABLES=$(shell ./prototype tables)
 TABLE_TARGETS := $(addprefix _site/tables/, $(addsuffix .html, $(TABLES)))
-SCREENS=$(shell runghc prototype.hs screens)
+SCREENS=$(shell ./prototype screens)
 SCREEN_TARGETS := $(addprefix _site/screens/, $(addsuffix .html, $(SCREENS)))
 
 
@@ -109,9 +108,6 @@ _intermediate/pages/%.html: pages/%.md filters/include-filter.hs
 	  --highlight=kate \
 	  --filter filters/include-filter.hs \
 	  $< >> $@
-
-prototype: prototype.hs
-	ghc --make prototype.hs
 
 .PHONY: ghcid
 ghcid:
