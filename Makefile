@@ -75,8 +75,8 @@ _site/tables/%.html: tables/%.md prototype.db prototype.hs \
 	  | sed 's@\([^:]\+\):\(.\+\)@<a href="/database.html#cb1-\2">\1:\2</a>@' \
 	  >> $@.temp
 	echo >> $@.temp
-	sqlite3 -init sqliterc.txt prototype.db "SELECT * FROM $* LIMIT 100"\
-          | grep -v '\-- Loading resources from sqliterc.txt' >> $@.temp || true
+	sqlite3 -init .sqliterc.txt prototype.db "SELECT * FROM $* LIMIT 100"\
+          | grep -v '\-- Loading resources from .sqliterc.txt' >> $@.temp || true
 	echo "  Command: sqlite3 prototype.db \"SELECT * FROM $* LIMIT 100\"" >> $@.temp
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
