@@ -99,6 +99,8 @@ selectColumns conn table =
 
 
 --------------------------------------------------------------------------------
+-- | This data type is mapped to the prototype_screens table. See
+-- https://prototyping.hypered.design/tables/prototype_screens.html.
 data Screen =
   Screen
   { screenName :: Text
@@ -118,6 +120,7 @@ instance ToRow Screen
   toRow (Screen{..}) =
     toRow (screenName, screenRoute, screenType, screenQuery, screenIds)
 
+-- | This data type is maaped to the sqlite_master table.
 data SqliteTable =
   SqliteTable
   { tableType :: Text
@@ -139,6 +142,7 @@ instance ToRow SqliteTable
 
 
 --------------------------------------------------------------------------------
+-- | This data type is mapped to the result of PRAGMA table_info().
 data SqliteColumn =
   SqliteColumn
   { columnCid :: Int

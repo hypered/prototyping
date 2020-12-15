@@ -1,7 +1,8 @@
 -- This script offers a few sub-commands that are used by the Makefile to build
--- the `site/` directory. Some of the sub-commands are used to populate the
--- SQLite database `prototype.db`, some other are used to read the database and
--- generate HTML files.
+-- the `_site/` directory. Some of the sub-commands are used to populate the
+-- SQLite database `prototype.db`, some others are used to read the database
+-- and generate HTML files.
+
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 

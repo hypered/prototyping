@@ -1,4 +1,7 @@
 -- A small Scotty-based web server exposing the routes found in prototype.db.
+-- Simply run it with `runghc serve.hs` then navigate to
+-- http://127.0.0.1:9011/.
+
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 
