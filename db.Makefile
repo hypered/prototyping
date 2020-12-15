@@ -4,10 +4,10 @@
 SOURCES=$(shell find . -name '*.md')
 METADATA := $(addprefix _intermediate/metadata/, $(patsubst %.md,%.json,$(SOURCES)))
 
-prototype.db: prototype.sql prototype _intermediate/metadata.sql insert-screens.sql
+prototype.db: prototype.sql bin/prototype _intermediate/metadata.sql insert-screens.sql
 	rm -f prototype.db
 	sqlite3 $@ < $<
-	./prototype import-md-sources
+	bin/prototype import-md-sources
 	sqlite3 $@ < _intermediate/metadata.sql
 	sqlite3 prototype.db < insert-screens.sql
 
@@ -36,5 +36,5 @@ _intermediate/metadata/%.json: %.md metadata.tpl
 	  --metadata type=markdown \
 	  $< -o $@
 
-prototype: prototype.hs
-	ghc --make prototype.hs
+bin/prototype: bin/prototype.hs
+	ghc --make bin/prototype.hs

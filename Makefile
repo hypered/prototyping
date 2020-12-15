@@ -4,9 +4,9 @@ DATE=$(shell date --iso-8601=minutes)
 
 # This depends on prototype and prototype.db. They can be built with the
 # db.Makefile. It is simpler to use `scripts/build.sh` to combine both steps.
-TABLES=$(shell ./prototype tables)
+TABLES=$(shell bin/prototype tables)
 TABLE_TARGETS := $(addprefix _site/tables/, $(addsuffix .html, $(TABLES)))
-SCREENS=$(shell ./prototype screens)
+SCREENS=$(shell bin/prototype screens)
 SCREEN_TARGETS := $(addprefix _site/screens/, $(addsuffix .html, $(SCREENS)))
 
 
@@ -30,19 +30,19 @@ _site/%.html: _intermediate/pages/%.html \
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
-_site/screens/index.html: prototype.db prototype \
+_site/screens/index.html: prototype.db bin/prototype \
   _intermediate/end.html
 	mkdir -p $(dir $@)
-	./prototype screen-index-html > $@.temp
+	bin/prototype screen-index-html > $@.temp
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
 # The || true below is necessary because when no record exist in the table,
 # the grep invokation will exit 1, instead of 0.
-_site/screens/%.html: screens/%.md prototype.db prototype \
+_site/screens/%.html: screens/%.md prototype.db bin/prototype \
   _intermediate/end.html
 	mkdir -p $(dir $@)
-	./prototype screen-html $* > $@.temp
+	bin/prototype screen-html $* > $@.temp
 	echo >> $@.temp
 	echo "</code></pre>" >> $@.temp
 	pandoc $< >> $@.temp
@@ -50,19 +50,19 @@ _site/screens/%.html: screens/%.md prototype.db prototype \
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
-_site/tables/index.html: prototype.db prototype \
+_site/tables/index.html: prototype.db bin/prototype \
   _intermediate/end.html
 	mkdir -p $(dir $@)
-	./prototype table-index-html > $@.temp
+	bin/prototype table-index-html > $@.temp
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
 # The || true below is necessary because when no record exist in the table,
 # the grep invokation will exit 1, instead of 0.
-_site/tables/%.html: tables/%.md prototype.db prototype \
+_site/tables/%.html: tables/%.md prototype.db bin/prototype \
   _intermediate/end.html
 	mkdir -p $(dir $@)
-	./prototype table-html $* > $@.temp
+	bin/prototype table-html $* > $@.temp
 	echo >> $@.temp
 	echo "</code></pre>" >> $@.temp
 	pandoc $< >> $@.temp
@@ -84,13 +84,13 @@ _site/static/%.css: static/%.css
 	mkdir -p $(dir $@)
 	cp $< $@
 
-_intermediate/begin.html: prototype
+_intermediate/begin.html: bin/prototype
 	mkdir -p $(dir $@)
-	./prototype begin-html > $@
+	bin/prototype begin-html > $@
 
-_intermediate/end.html: prototype
+_intermediate/end.html: bin/prototype
 	mkdir -p $(dir $@)
-	./prototype end-html > $@
+	bin/prototype end-html > $@
 
 # Same rule as below but depends on prototype.sql.
 _intermediate/pages/database.html: pages/database.md filters/include-filter.hs \
