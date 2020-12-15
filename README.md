@@ -51,7 +51,7 @@ $ direnv allow
 ```
 
 [^envrc]: The file `.envrc` is not versioned because it can also be used to
-define environemnt variables containing credentials. You can change the
+define environment variables containing credentials. You can change the
 recommanded value for `PROTOTYPE_DB` to something else if necessary.
 
 The `PROTOTYPE_DB` is used by the `prototype.hs` script. Currently the
@@ -73,6 +73,7 @@ $ scripts/build.sh
 In addition of the main build script `scripts/build.sh`, some command-line
 tools can be usefull, e.g. `sqlite3`, `haskell-mustache`, ... but also some of
 them are implemented in `prototype.hs`.
+
 
 ### Screens
 
@@ -96,7 +97,7 @@ Description:
 ```
 
 
-## Troubleshouting
+## Troubleshooting
 
 ```
 $ scripts/build.sh 
@@ -105,4 +106,4 @@ make: *** No rule to make target '_site/tables/sources.html', needed by 'all'.  
 ```
 
 This can be caused by a missing `tables/sources.md` file, used to generate the
-`.html` one.
+corresponding `.html` one.
