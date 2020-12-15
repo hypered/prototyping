@@ -10,7 +10,7 @@
 <strong>prototype_screens</strong>
 
 </code></pre>
-<p>The <code>screens</code> table describes the different screens of the prototype. Screens are like pages but more with a role within an application, whereas pages are more informative. Its records are automatically created in <code>db.Makefile</code> by copying part of the <code>prototype_metadata</code> table.</p>
+<p>The <code>screens</code> table describes the different screens of the prototype. Screens are like pages but more with a role within an application, whereas pages are more informative. Its records are automatically created in <code>db.Makefile</code> by running <code>insert-screens.sql</code>, which copies part of the <code>prototype_metadata</code> table.</p>
 <p>A screen specifies a SQL query to fetch the necessary data to populate it, and a route where the screen should be visible. By combining the two pieces of information, the <code>serve.hs</code> script is able to automatically make the right data available at the right route. The query is expected to return JSON.</p>
 <p>For instance given the <code>view-item</code> screen, (if <code>serve.hs</code> is running) you should be able to visit <a href="http://127.0.0.1:9011/item/1">/item/1</a>.</p>
 <pre><code>
