@@ -31,19 +31,19 @@ _site/%.html: _intermediate/pages/%.html \
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
-_site/screens/index.html: prototype.db prototype.hs \
+_site/screens/index.html: prototype.db prototype \
   _intermediate/end.html
 	mkdir -p $(dir $@)
-	runghc prototype.hs screen-index-html > $@.temp
+	./prototype screen-index-html > $@.temp
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
 # The || true below is necessary because when no record exist in the table,
 # the grep invokation will exit 1, instead of 0.
-_site/screens/%.html: screens/%.md prototype.db prototype.hs \
+_site/screens/%.html: screens/%.md prototype.db prototype \
   _intermediate/end.html
 	mkdir -p $(dir $@)
-	runghc prototype.hs screen-html $* > $@.temp
+	./prototype screen-html $* > $@.temp
 	echo >> $@.temp
 	echo "</code></pre>" >> $@.temp
 	pandoc $< >> $@.temp
@@ -51,19 +51,19 @@ _site/screens/%.html: screens/%.md prototype.db prototype.hs \
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
-_site/tables/index.html: prototype.db prototype.hs \
+_site/tables/index.html: prototype.db prototype \
   _intermediate/end.html
 	mkdir -p $(dir $@)
-	runghc prototype.hs table-index-html > $@.temp
+	./prototype table-index-html > $@.temp
 	cat _intermediate/end.html >> $@.temp
 	mv $@.temp $@
 
 # The || true below is necessary because when no record exist in the table,
 # the grep invokation will exit 1, instead of 0.
-_site/tables/%.html: tables/%.md prototype.db prototype.hs \
+_site/tables/%.html: tables/%.md prototype.db prototype \
   _intermediate/end.html
 	mkdir -p $(dir $@)
-	runghc prototype.hs table-html $* > $@.temp
+	./prototype table-html $* > $@.temp
 	echo >> $@.temp
 	echo "</code></pre>" >> $@.temp
 	pandoc $< >> $@.temp
@@ -85,13 +85,13 @@ _site/static/%.css: static/%.css
 	mkdir -p $(dir $@)
 	cp $< $@
 
-_intermediate/begin.html: prototype.hs
+_intermediate/begin.html: prototype
 	mkdir -p $(dir $@)
-	runghc prototype.hs begin-html > $@
+	./prototype begin-html > $@
 
-_intermediate/end.html: prototype.hs
+_intermediate/end.html: prototype
 	mkdir -p $(dir $@)
-	runghc prototype.hs end-html > $@
+	./prototype end-html > $@
 
 # Same rule as below but depends on prototype.sql.
 _intermediate/pages/database.html: pages/database.md filters/include-filter.hs \
@@ -110,10 +110,14 @@ _intermediate/pages/%.html: pages/%.md filters/include-filter.hs
 	  --filter filters/include-filter.hs \
 	  $< >> $@
 
+prototype: prototype.hs
+	ghc --make prototype.hs
+
 .PHONY: ghcid
 ghcid:
 	ghcid "--command=ghci prototype.hs"
 
 .PHONY: clean
 clean:
-	rm -r prototype.db _intermediate _site
+	rm -rf prototype.db _intermediate _site \
+	  prototype prototype.hi prototype.o Prototype.hi Prototype.o
