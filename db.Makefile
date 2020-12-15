@@ -4,12 +4,13 @@
 SOURCES=$(shell find . -name '*.md')
 METADATA := $(addprefix _intermediate/metadata/, $(patsubst %.md,%.json,$(SOURCES)))
 
-prototype.db: prototype.sql bin/prototype _intermediate/metadata.sql insert-screens.sql
+prototype.db: sql/prototype.sql \
+  bin/prototype _intermediate/metadata.sql sql/insert-screens.sql
 	rm -f prototype.db
 	sqlite3 $@ < $<
 	bin/prototype import-md-sources
 	sqlite3 $@ < _intermediate/metadata.sql
-	sqlite3 prototype.db < insert-screens.sql
+	sqlite3 prototype.db < sql/insert-screens.sql
 
 # Combine the YAML metadata blocks extracted in the rule below to generate a
 # .sql file to insert them into the prototype_metadata table in the above

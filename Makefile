@@ -70,7 +70,7 @@ _site/tables/%.html: tables/%.md prototype.db bin/prototype \
 	echo >> $@.temp
 	sqlite3 prototype.db ".schema $*" >> $@.temp
 	echo -n "  Defined: " >> $@.temp
-	grep -nH "^CREATE TABLE $* ($$" prototype.sql | cut -d : -f 1,2 \
+	grep -nH "^CREATE TABLE $* ($$" sql/prototype.sql | cut -d : -f 1,2 \
 	  | sed 's@\([^:]\+\):\(.\+\)@<a href="/database.html#cb1-\2">\1:\2</a>@' \
 	  >> $@.temp
 	echo >> $@.temp
@@ -94,7 +94,7 @@ _intermediate/end.html: bin/prototype
 
 # Same rule as below but depends on prototype.sql.
 _intermediate/pages/database.html: pages/database.md filters/include-filter.hs \
-  prototype.sql
+  sql/prototype.sql
 	mkdir -p $(dir $@)
 	cat code-style.html > $@
 	pandoc \
