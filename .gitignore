@@ -1,5 +1,8 @@
 .envrc
 _site
 _intermediate
+bin/prototype
 prototype.db
+*.hi
+*.o
 .*.swp
