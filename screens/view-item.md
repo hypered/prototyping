@@ -6,4 +6,4 @@ ids: "SELECT id FROM items"
 ---
 
 `view-item` is a `VIEW` screen displaying a particular record of the `items`
-table.
+table. See e.g. [`/item/1`](http://127.0.0.1:9011/item/1).
