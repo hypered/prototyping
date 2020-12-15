@@ -1,7 +1,8 @@
 The `screens` table describes the different screens of the prototype. Screens
 are like pages but more with a role within an application, whereas pages are
 more informative. Its records are automatically created in `db.Makefile` by
-copying part of the `prototype_metadata` table.
+running `insert-screens.sql`, which copies part of the `prototype_metadata`
+table.
 
 A screen specifies a SQL query to fetch the necessary data to populate it, and
 a route where the screen should be visible. By combining the two pieces of
