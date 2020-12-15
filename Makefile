@@ -116,4 +116,4 @@ ghcid:
 
 .PHONY: clean
 clean:
-	rm -r _site
+	rm -r prototype.db _intermediate _site
