@@ -11,7 +11,7 @@ prototype.db: prototype.sql prototype.hs _intermediate/metadata.sql insert-scree
 	sqlite3 $@ < _intermediate/metadata.sql
 	sqlite3 prototype.db < insert-screens.sql
 
-# Combine the YAML metadata blocks extrqcted in the rule below to generate a
+# Combine the YAML metadata blocks extracted in the rule below to generate a
 # .sql file to insert them into the prototype_metadata table in the above
 # `prototype.db` rule.
 # The sed replaces the last comma with a semi-colon.
