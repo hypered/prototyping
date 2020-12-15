@@ -29,7 +29,7 @@ which itself calls the `prototype.hs` script.
 Everything is done by running the `scripts/build.sh` script:
 
 ```
-prototype.sql                            _site/*.html
+bin/prototype.sql                        _site/*.html
               \                        /
 pages/*.md     -->-- prototype.db -->--
               /
@@ -74,6 +74,9 @@ In addition of the main build script `scripts/build.sh`, some command-line
 tools can be usefull, e.g. `sqlite3`, `haskell-mustache`, ... but also some of
 them are implemented in `prototype.hs`.
 
+Note: instead of running `bin/prototype`, you can also use `runghc
+bin/prototype.hs`.
+
 
 ### Screens
 
@@ -81,7 +84,7 @@ The following example shows the JSON returned by a particular `VIEW` screen. It
 is thus similar to using the route `http://127.0.0.1:9011/item/1`:
 
 ```
-$ runghc prototype.hs screen view-item 2 --json
+$ bin/prototype screen view-item 2 --json
 {"id":2,"description":"Extract the values of each ENUMs to reuse them in table descriptions.","status":"TODO"}
 ```
 
@@ -89,7 +92,7 @@ The screen can be rendered with (the corresponding Mustache template is
 `view-item.mustache`):
 
 ```
-$ runghc prototype.hs screen view-item 2
+$ bin/prototype screen view-item 2
 ITEM-2
 Status: TODO
 Description:
