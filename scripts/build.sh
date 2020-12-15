@@ -5,5 +5,5 @@
 
 set -e
 
-make -f db.Makefile  # Build prototype.db.
-make -j 8            # Build _site/.
+make -j 8 -f db.Makefile  # Build prototype.db.
+make -j 8                 # Build _site/.

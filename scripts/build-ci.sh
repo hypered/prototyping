@@ -6,5 +6,5 @@
 
 set -e
 
-make -f db.Makefile
+make -j 8 -f db.Makefile
 make -j 8
