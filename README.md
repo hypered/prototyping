@@ -8,7 +8,7 @@ static HTML pages from a database. You can visit the generated pages at
 described in `shell.nix`).
 
 - This also uses a `Makefile`. I didn't specify `gnumake` in `shell.nix`, but I
-guess that its use of `mkShell` automatically provide it. The `Makefile` helps
+guess that its use of `mkShell` automatically provides it. The `Makefile` helps
 to re-generate only the necessary files upon changes when developing.
 
 - This also uses `ghcid`, which can be run with `make ghcid`.
